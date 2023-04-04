@@ -1,0 +1,40 @@
+#main-sidebar {
+    background-color: var(--color-darknuance);
+    height: 100%;
+    width: 100px;
+    min-height: 100vh;
+    box-shadow: 0 0 80px rgba(0,0,0,0.4);
+    & ul {
+        & li {
+            text-align: center;
+            position: relative;
+            color: #8388d4;
+            & a {
+                display: block;
+                padding: 15px;
+                cursor: pointer;
+                font-size: 0.825rem;
+                & i {
+                    font-size: 1.5rem;
+                    display: block;
+                    margin-bottom: 8px;
+                }
+            }
+            &:first-of-type {
+                & a {
+                    padding: 0;
+                }
+                & img {
+                    display: block;
+                }
+            }
+            &:hover {
+                color: #fff;
+            }
+            &.active {
+                color: #fff;
+                background-color: var(--color-dark)
+            }
+        }
+    }
+}

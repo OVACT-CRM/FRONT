@@ -1,0 +1,41 @@
+.designation-element {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    padding-right: 40px;
+    margin-bottom: 10px;
+    position: relative;
+    & .inputContainer {
+        min-width: 0;
+        width: auto;
+        & input {
+            min-width: 0;
+            display: inline-block;
+            width: auto;
+        }
+        &:first-of-type input {
+            width: 300px;
+        }
+        &:not(:first-of-type) input {
+            width: 100px;
+        }
+        & label {
+            display: block;
+            margin-bottom: 8px;
+        }
+    }
+    & .deleteLine {
+        height: 50px;
+        width: 50px;
+        line-height: 50px;
+        border-radius: 50%;
+        text-align: center;
+        background-color: var(--color-darknuance);
+        margin-top: 25px;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--color-red);
+        }
+    }
+}
