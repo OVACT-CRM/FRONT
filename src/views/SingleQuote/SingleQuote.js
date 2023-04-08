@@ -1,6 +1,6 @@
 // REACT
 import React, { useEffect, useState, useRef } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Libs
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
@@ -15,6 +15,7 @@ import Designation from "../../components/Designation/Designation.js";
 import "./SingleQuote.scss";
 
 function SingleQuote() {
+  const navigate = useNavigate();
   //PDF
   const contentArea = useRef(null);
   const handleExportWithFunction = (event) => {
@@ -221,12 +222,50 @@ function SingleQuote() {
   };
 
 
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+  const toggleModalDelete = () => {
+    setModalDeleteOpen(!modalDeleteOpen);
+  }
+  const handleDeleteQuotation = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this quotation?");
+    if (!confirmDelete) {
+      return;
+    }
+  
+    axios
+      .delete(`http://localhost:3001/quotations/${quoteID}`)
+      .then((response) => {
+        if (response.status === 200) {
+          alert("Quotation deleted successfully.");
+          // Redirect to the quotations page
+          navigate("/quotations");
+        } else {
+          alert("Failed to delete the quotation. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to delete the quotation. Please try again.");
+      });
+  };
+
   if (!quote) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
+      {
+        modalDeleteOpen &&
+        <div className="modalWrap confirmModal">
+          <div className="overlay" onClick={toggleModalDelete}></div>
+          <div className="modal tac">
+            <p className="mb20">Are you sure to delete this quotation ?</p>
+            <CustomButton onClick={() => handleDeleteQuotation(quoteID)} size="medium" color="red"><span className="mr10">Delete Quotation</span><i className="fas fa-trash-alt"></i></CustomButton>
+          </div>
+        </div>
+      }
       <main id="main-NewQuote">
         <Sidebar />
         <div className="wrap">
@@ -406,6 +445,7 @@ function SingleQuote() {
             <div>
               <CustomButton onClick={handleUpdateQuotation} disabled={isSigned} size="small" color="borderwhite"><span className="mr10">Update Quote</span><i className="fas fa-save"></i></CustomButton>
               <CustomButton onClick={handleExportWithFunction} size="small" color="borderwhite"><span className="mr10">Download PDF</span><i className="fas fa-file-download"></i></CustomButton>
+              <CustomButton onClick={toggleModalDelete} size="small" color="borderwhite"><span className="mr10">Delete Quotation</span><i className="fas fa-trash-alt"></i></CustomButton>
            </div>
         </footer>
     

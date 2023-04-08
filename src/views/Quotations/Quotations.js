@@ -7,6 +7,21 @@ import "./Quotations.scss";
 function Quotations() {
   const [quotations, setQuotations] = useState([]);
 
+
+  const handleDuplicateQuotation = async (id) => {
+    try {
+      const res = await axios.post(`http://localhost:3001/quotations/${id}/duplicate`);
+      const newQuotation = res.data;
+      // Update the subject of the new quotation with the duplicated subject
+      newQuotation.subject = `Duplicated ${newQuotation.subject}`;
+      // Add the new quotation to the list of quotations in state
+      setQuotations([...quotations, newQuotation]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   useEffect(() => {
     const fetchQuotations = async () => {
       try {
@@ -45,7 +60,7 @@ function Quotations() {
                   <th>Quote ID</th>
                   <th>Date</th>
                   <th>Client</th>
-                  <th>Subject</th>
+                  <th className="subject">Subject</th>
                   <th>Total Price</th>
                   <th>Status</th>
                 </tr>
@@ -56,9 +71,10 @@ function Quotations() {
                     <td><a href={`http://localhost:3000/quotations/${quote._id}`}>{quote._id}</a></td>
                     <td>{new Date(quote.createdAt).toLocaleDateString()}</td>
                     <td>{quote.clientName}</td>
-                    <td>{quote.subject}</td>
+                    <td className="subject">{quote.subject}</td>
                     <td>{quote.total}</td>
                     <td className="td-status">{quote.status}</td>
+                    <td className="td-duplicate cup" onClick={() => handleDuplicateQuotation(quote._id)}><i className="far fa-clone"></i></td>
                   </tr>
                 ))}
               </tbody>

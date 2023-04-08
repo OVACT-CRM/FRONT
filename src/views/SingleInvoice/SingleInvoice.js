@@ -214,7 +214,7 @@ function SingleInvoices() {
                                     value={invoiceStatus}
                                     onChange={handleStatusChange}
                                 >
-                                    <option value="unpaid">unpaid</option>
+                                    <option value="unpaid">Unpaid</option>
                                     <option value="partially paid">Partially paid</option>
                                     <option value="paid">Paid</option>
                                 </select>

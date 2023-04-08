@@ -41,7 +41,7 @@ function Invoices() {
                   <th>Invoice ID</th>
                   <th>Date</th>
                   <th>Client</th>
-                  <th>Subject</th>
+                  <th className="subject">Subject</th>
                   <th>Total Price</th>
                   <th>Status</th>
                 </tr>

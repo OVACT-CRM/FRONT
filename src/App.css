@@ -789,7 +789,7 @@ body:has(.modalWrap) {
   background: transparent;
   color: var(--color-white);
 }
-.modalWrap.confirmModal i {
+.modalWrap.confirmModal .modal > i {
   font-size: 4rem;
 }
 

@@ -13,11 +13,14 @@
         border-collapse: collapse; 
         border-spacing: 0 5px;
         border: 1px solid var(--color-alpha);
+        & .subject {
+            max-width: 150px;
+        }
         & thead {
             border-bottom: 1px solid var(--color-alpha);
         }
         & tr:not(:last-of-type) {
-            border-bottom: 1px dashed var(--color-alpha);
+            border-bottom: 1px solid var(--color-alpha);
         }
         & th {
             padding: 20px 10px;
@@ -38,6 +41,16 @@
         }
         & .td-status {
             text-transform: capitalize;
+        }
+        & tr td {
+            bottom: none;
+        }
+        & .td-duplicate {
+            text-align: center;
+            & i {
+                display: inline-block;
+                margin: 0 auto;
+            }
         }
         
     }

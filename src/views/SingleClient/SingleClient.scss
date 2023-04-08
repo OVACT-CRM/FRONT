@@ -7,6 +7,37 @@
         width: calc(100% - 200px);
         padding: 30px 50px;
         min-height: 100vh;
+        & .clientInfos {
+            & li {
+                padding: 20px;
+            }
+            & label {
+                margin-bottom: 10px;
+            }
+            & input {
+                padding: 0;
+                height: 30px;
+                line-height: 30px;
+            }
+        }
+
+        & .tableNav {
+            margin-bottom: 20px;
+            & ul {
+                & li {
+                    cursor: pointer;
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding: 15px 20px;
+                    opacity: 1;
+                    border: 1px solid var(--color-white);
+                    &.active {
+                        color: var(--color-dark);
+                        background-color: var(--color-white);
+                    }
+                }
+            }
+        }
     }
 
     & .clientInfos {
