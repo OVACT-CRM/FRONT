@@ -22,6 +22,8 @@ function NewQuote() {
   const contentArea = useRef(null);
 	const handleExportWithFunction = (event) => {
 		savePDF(contentArea.current, {
+      paperSize: ['28cm', '39.7cm'],
+      multipage: true,
       fileName: "ZQ"+new Date(Date.now()).getTime()+".pdf"
     });
 	};
@@ -94,6 +96,7 @@ function NewQuote() {
       {
         id: newId,
         name: "",
+        description: "",
         quantity: "",
         price: "",
         discount: "",
@@ -146,8 +149,9 @@ function NewQuote() {
   
 const handleNewQuotation = (e) => {
   e.preventDefault();
-  const items = designations.map(({ name, quantity, price, discount }) => ({
+  const items = designations.map(({ name, description, quantity, price, discount }) => ({
     name: name,
+    description: description,
     quantity: Number(quantity),
     price: Number(price),
     discount: Number(discount),
@@ -247,7 +251,7 @@ const handleNewQuotation = (e) => {
                   <div className="tar flex gap30">
                     <div>
                       <p className="labelSize"><strong>Quotation</strong></p>
-                      <p>n*{"ZQ"+new Date(Date.now()).getTime()}</p>
+                      <p>{"ZQ"+new Date(Date.now()).getTime()}</p>
                     </div>
                     <div>
                       <p className="labelSize"><strong>Date</strong></p>
@@ -283,7 +287,7 @@ const handleNewQuotation = (e) => {
                     <tbody>
                       {designations.map((designation) => (
                         <tr key={designation.id}>
-                          <td>{designation.name}</td>
+                          <td><strong>{designation.name}</strong><p>{designation.description}</p></td>
                           <td className="tar">{designation.quantity}</td>
                           <td className="tar">{designation.price}</td>
                           <td className="tar">{designation.discount === 100 ? "FREE" : designation.discount === 0 ? "" : designation.discount + "%"}</td>

@@ -20,6 +20,8 @@ function SingleQuote() {
   const contentArea = useRef(null);
   const handleExportWithFunction = (event) => {
     savePDF(contentArea.current, {
+      paperSize: ['28cm', '39.7cm'],
+      multipage: true,
       fileName: "ZQ" + new Date(Date.now()).getTime() + ".pdf"
     });
   };
@@ -69,7 +71,8 @@ function SingleQuote() {
       ...designations,
       {
         id: newId,
-        name: "", // Add this line
+        name: "",
+        description:"",
         quantity: "",
         price: "",
         discount: "",
@@ -110,6 +113,7 @@ function SingleQuote() {
           date: quoteDate,
           designations: designations,
           status: quotationStatus,
+          client: {_id: clientID}
         })
         .then((response) => {
         if (response.status === 200) {
@@ -155,18 +159,7 @@ function SingleQuote() {
 
   const clientID = quote && quote.client._id;
 
-  const getClientInfos = (id) => {
-    fetch(`http://localhost:3001/clients/${id}`)
-      .then(response => response.json())
-      .then(data => setClient(data))
-      .catch(error => console.error(error));
-  };
 
-  useEffect(() => {
-    if (clientID) {
-      getClientInfos(clientID);
-    }
-  }, [clientID]);
 
 
   const calculateSubtotal = (updatedDesignations) => {
@@ -250,9 +243,67 @@ function SingleQuote() {
       });
   };
 
+
+  const [clients, setClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState();
+
+  const [isOpenClientsModal, setIsOpenClientsModal] = useState(false);
+  const toggleModalClients = () => {
+    setIsOpenClientsModal(!isOpenClientsModal);
+  }
+
+  const handleSelectClient = (id) => {
+    console.log(id);
+    setSelectedClient(id);
+    toggleModalClients();
+    // Update the quotation's client with the new ID
+    axios.patch(`http://localhost:3001/quotations/${quoteID}`, {
+      client: { _id: id }
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        alert("Quotation client updated successfully.");
+      } else {
+        alert("Failed to update the quotation client. Please try again.");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to update the quotation client. Please try again.");
+    });
+  };
+  
+  const getClientInfos = (id) => {
+    fetch(`http://localhost:3001/clients/${id}`)
+      .then(response => response.json())
+      .then(data => setClient(data))
+      .catch(error => console.error(error));
+  };
+
+  useEffect(() => {
+    if (clientID) {
+      getClientInfos(clientID);
+    }
+    if(selectedClient) {
+      getClientInfos(selectedClient);
+    }
+  }, [selectedClient, clientID]);
+
+  
+  useEffect(() => {
+    axios.get('http://localhost:3001/clients')
+    .then(res => {
+        //console.log(res.data);
+        setClients(res.data);
+    })
+    .catch(err => console.log(err));
+}, []);
+
+
   if (!quote) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <>
@@ -261,10 +312,23 @@ function SingleQuote() {
         <div className="modalWrap confirmModal">
           <div className="overlay" onClick={toggleModalDelete}></div>
           <div className="modal tac">
-            <p className="mb20">Are you sure to delete this quotation ?</p>
+            <p className="mb20">Are you sure you want to delete this quotation ?</p>
             <CustomButton onClick={() => handleDeleteQuotation(quoteID)} size="medium" color="red"><span className="mr10">Delete Quotation</span><i className="fas fa-trash-alt"></i></CustomButton>
           </div>
         </div>
+      }
+      {
+      isOpenClientsModal &&
+      <div className="modalWrap" id="modalClients">
+        <div className="overlay" onClick={toggleModalClients}></div>
+        <div className="modal">
+          <ul>
+            {clients.map(client => (
+              <li className="cup" key={client._id} onClick={() => handleSelectClient(client._id)}><span>{client.name}</span></li>
+            ))}
+          </ul>
+        </div>
+      </div>
       }
       <main id="main-NewQuote">
         <Sidebar />
@@ -294,6 +358,7 @@ function SingleQuote() {
                   <label className="db mb10">Client Name</label>
                   <div className="inputContainer">
                     <input type="text" value={client ? client.name : "Missing Client"} readOnly/>
+                    <button onClick={toggleModalClients} id="button-select-client"><i className="fas fa-user"></i></button>
                   </div>
                 </div>
     
@@ -317,6 +382,7 @@ function SingleQuote() {
                         handleDelete={handleDelete}
                         {...designation}
                         name={designation.name}
+                        description={designation.description}
                         quantity={designation.quantity}
                         price={designation.price}
                         discount={designation.discount}
@@ -326,7 +392,7 @@ function SingleQuote() {
                 </ul>
               }
               {
-                designations.length < 9 && !isSigned &&
+                //designations.length < 9 && !isSigned &&
                 <CustomButton onClick={handleAddDesignation} size="large">Add Designation</CustomButton>
               }
               {
@@ -358,7 +424,7 @@ function SingleQuote() {
                     <div className="tar flex gap30">
                       <div>
                         <p className="labelSize"><strong>Quotation</strong></p>
-                        <p>n*{"ZQ"+new Date(Date.now()).getTime()}</p>
+                        <p>{"ZQ"+new Date(Date.now()).getTime()}</p>
                       </div>
                       <div>
                         <p className="labelSize"><strong>Date</strong></p>
@@ -393,7 +459,7 @@ function SingleQuote() {
                   <tbody>
                     {designations.map((designation) => (
                       <tr key={designation.id}>
-                        <td>{designation.name}</td>
+                        <td><strong>{designation.name}</strong><p>{designation.description}</p></td>
                         <td className="tar">{designation.quantity}</td>
                         <td className="tar">{designation.price}</td>
                         <td className="tar">{designation.discount === 100 ? "FREE" : designation.discount === 0 ? "" : designation.discount + "%"}</td>
@@ -441,7 +507,7 @@ function SingleQuote() {
       </div>
     
         <footer>
-            <p>Quotation n*{"ZQ"+new Date(Date.now()).getTime()}</p>
+            <p>Quotation {"ZQ"+new Date(Date.now()).getTime()}</p>
             <div>
               <CustomButton onClick={handleUpdateQuotation} disabled={isSigned} size="small" color="borderwhite"><span className="mr10">Update Quote</span><i className="fas fa-save"></i></CustomButton>
               <CustomButton onClick={handleExportWithFunction} size="small" color="borderwhite"><span className="mr10">Download PDF</span><i className="fas fa-file-download"></i></CustomButton>

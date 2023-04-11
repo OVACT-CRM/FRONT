@@ -2,14 +2,17 @@ import "./Designation.scss";
 
 const Designation = (props) => {
     
-  const { id, name, quantity, price, discount, handleInputChange, handleDelete, isSigned } = props;
+  const { id, name, description, quantity, price, discount, handleInputChange, handleDelete, isSigned } = props;
 
   const total = price * quantity * (1 - discount / 100);
   
   const handleNameChange = (e) => {
     handleInputChange.handleNameChange(e);
   };
-  
+
+  const handleDescriptionChange = (e) => {
+    handleInputChange.handleDescriptionChange(e);
+  };
   const handleQuantityChange = (e) => {
     handleInputChange.handleQuantityChange(e);
   };
@@ -36,6 +39,17 @@ const Designation = (props) => {
                 value={name ? name : ""}
                 onChange={(e) => handleInputChange(e, "name")}
                 placeholder="Designation title"
+                disabled={isSigned}
+            />
+        </div>
+        <div className="inputContainer">
+            <label>Description</label>
+            <input
+                type="text"
+                name={`description-${id}`}
+                value={description ? description : ""}
+                onChange={(e) => handleInputChange(e, "description")}
+                placeholder="Description"
                 disabled={isSigned}
             />
         </div>

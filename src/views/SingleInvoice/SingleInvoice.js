@@ -22,7 +22,7 @@ function SingleInvoices() {
 
     const handleExportWithFunction = (event) => {
         savePDF(contentArea.current, {
-            fileName: "ZQ" + new Date(Date.now()).getTime() + ".pdf"
+            fileName: "ZI" + new Date(Date.now()).getTime() + ".pdf"
         });
     };
     
@@ -201,7 +201,7 @@ function SingleInvoices() {
                     </div>
                     </div>
                     <footer>
-                        <p>Invoice n*{invoice._id}</p>
+                        <p>Invoice {invoice._id}</p>
                         <div>
                             <div className="inputWrap mr10">
                                 <label className="mr10 color-white">Date</label>
