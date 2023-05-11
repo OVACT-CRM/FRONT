@@ -181,7 +181,7 @@ function SingleInvoices() {
                             <div className="left">
                                     <p><strong>ZOGMA</strong> <span>- PL 697-186-53-78</span></p>
                                     <p>NR EWIDEN. 53053117630 REGON: 410373867</p>
-                                    <p className="mb10">ul. Szczepanowskiego 11, PL 64-000 KOŚCIAN</p>
+                                    <p className="mb10">ul. Szczepanowskiego 11, PL 64-000 KOSCIAN</p>
                                     <p><strong>BANK SANTANDER : </strong></p>
                                     <p className="iban">PL11 1090 2125 0000 0001 2099 5777 — SWIFT WBK PPL PP</p>
                             </div>
