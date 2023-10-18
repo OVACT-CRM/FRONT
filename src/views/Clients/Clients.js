@@ -1,6 +1,6 @@
 // REACT
-import React, { Component }  from 'react';
-import {useEffect, useState, useContext, useLayoutEffect} from 'react';
+import React  from 'react';
+import {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 
 import axios from 'axios';
@@ -38,17 +38,26 @@ function HomePage() {
           {
            clients.length ?
             <ul>
+              <li className="tableHead">
+                <p><i className="fas fa-user"></i> Client</p>
+                <p><i className="fas fa-envelope"></i> Email</p>
+                <p><i className="fas fa-phone"></i>Phone</p>
+                <p><i className="fas fa-map-marker-alt"></i>Address</p>
+                <p><i className="fas fa-globe"></i> VAT</p>
+                <p><i className="fas fa-id-badge"></i> Siret</p>
+                <p>Actions</p>
+              </li>
               {clients.map(client => (
               <li key={client._id}>
                     <h4>
-                    <Link to={`/clients/${client._id}`}><span><i className="fas fa-user mr10"></i>{client.name}</span><i className="fas fa-arrow-right"></i></Link>
+                    <Link to={`/clients/${client._id}`}><span>{client.name}</span><i className="fas fa-arrow-right"></i></Link>
                     </h4>
-                    <p><i className="fas fa-envelope"></i> <span>{client.email}</span></p>
-                    <p><i className="fas fa-phone"></i> <span>{client.phone}</span></p>
-                    <p><i className="fas fa-map-marker-alt"></i> <span>{client.address}</span></p>
-                    <p><i className="fas fa-globe"></i> <span>{client.vat ? client.vat : "No VAT defined"}</span></p>
-                    <p><i className="fas fa-id-badge"></i> <span>{client.siret ? client.siret : "No Siret defined"}</span></p>
-                    <p><CustomButton color="borderwhite" size="small" link={`/new-quote/${client._id}`}>Create New Quote</CustomButton></p>
+                    <p><span>{client.email}</span></p>
+                    <p><span>{client.phone}</span></p>
+                    <p><span>{client.address}</span></p>
+                    <p><span>{client.vat ? client.vat : "No VAT defined"}</span></p>
+                    <p><span>{client.siret ? client.siret : "No Siret defined"}</span></p>
+                    <p><CustomButton color="borderwhite" size="small" link={`/new-quote/${client._id}`}><i className="fas fa-plus-circle mr5"></i> New Quote</CustomButton></p>
               </li>
               ))}
             </ul>

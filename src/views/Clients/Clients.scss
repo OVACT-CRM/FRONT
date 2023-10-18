@@ -8,27 +8,45 @@
         padding: 30px 50px;
         min-height: 100vh;
         & ul {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 2%;
+            min-width: 1300px;
+            overflow-x: auto;
             & li {
-                display: inline-block;
+                display: flex;
                 background-color: var(--color-darknuance-alpha);
-                width: calc(100% / 5);
-                max-width: 300px;
-                border-radius: 8px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                &:nth-of-type(even) {
+                    background-color: var(--color-darknuance);
+                }
+                &.tableHead {
+                    background: transparent;
+                }
+                & > * {
+                    flex-grow: 1;
+                    width: calc(100% / 7);
+                }
                 & h4 {
-                    border-radius: 8px 8px 0 0;
-                    background-color: var(--color-darknuance-alpha);
+                    font-size: 1rem;
+                    position: relative;
                     & a {
+                        height: 100%;
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
-                        border-radius: 8px 8px 0 0;
                         padding: 20px;
+                        border: 1px solid transparent;
+                        border-left: none;
+                        border-right: none;
+                        i {
+                            opacity: 0;
+                            transform: translateX(-5px);
+                            transition: all 0.2s ease-in-out;
+                        }
                         &:hover {
-                            background-color: var(--color-darknuance);
+                            border-color: #FFF;
+                            i {
+                                opacity: 1;
+                                transform: translateX(0);
+                            }
                         }
                     }
                 }
@@ -38,19 +56,12 @@
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
-                    gap: 20px;
-                    &:not(:last-of-type) {
-                        border-bottom: 1px dashed rgba(255,255,255,0.3);
-                    }
-                    &:last-of-type {
-                        padding: 0;
-                        & button{
-                            padding: 10px;
-                            width: 100%;
-                            text-align: center;
-                            background-color: var(--color-darknuance-alpha);
-                            border: none;
-                        }
+                    gap: 10px;
+                    & button{
+                        display: block;
+                        padding: 6px 10px;
+                        margin-left: 20px;
+                        border: 2px solid rgba(255,255,255,0.1);
                     }
                 }
             }
