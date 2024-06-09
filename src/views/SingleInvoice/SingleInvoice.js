@@ -121,7 +121,7 @@ function SingleInvoices() {
                                 <div className="tar flex gap30">
                                 <div>
                                     <p className="labelSize"><strong>Invoice</strong></p>
-                                    <p>{invoice._id}</p>
+                                    <p>{invoice.invoiceId ? invoice.invoiceId : invoice._id}</p>
                                 </div>
                                 <div>
                                     <p className="labelSize"><strong>Date</strong></p>

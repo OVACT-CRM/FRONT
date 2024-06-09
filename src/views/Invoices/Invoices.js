@@ -49,7 +49,7 @@ function Invoices() {
               <tbody>
                 {invoices.map((invoice) => (
                   <tr key={invoice._id}>
-                    <td><a href={`http://localhost:3000/invoices/${invoice._id}`}>{invoice._id}</a></td>
+                    <td><a href={`http://localhost:3000/invoices/${invoice._id}`}>{invoice.invoiceId ? invoice.invoiceId : invoice._id}</a></td>
                     <td>{new Date(invoice.createdAt).toLocaleDateString()}</td>
                     <td>{invoice.client.name}</td>
                     <td className="subject">{invoice.quotations[0].subject}</td>
