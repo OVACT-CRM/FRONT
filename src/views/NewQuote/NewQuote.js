@@ -244,10 +244,9 @@ const handleNewQuotation = (e) => {
           <div className="quoteContainer">
             <div className="quoteA4" ref={contentArea}>
             <PDFExport>
-              <img id="zog-z" src="http://localhost:3000/zog-z.jpg" alt="" />
               <div className="quoteContent">
                 <header>
-                  <img className="zogmatext" src="zogma-text.png" alt="" />
+                  <img className="zogmatext" src="logo-h.png" alt="" />
                   <div className="tar flex gap30">
                     <div>
                       <p className="labelSize"><strong>Quotation</strong></p>
@@ -313,8 +312,8 @@ const handleNewQuotation = (e) => {
 
                 <div className="quoteFooter">
                   <div className="left">
-                    <h4>ZOGMA <span className="labelSize">- Creative Studio</span></h4>
-                    <p>www.zog.ma</p>
+                    <h4>Company <span className="labelSize">- Your baseline</span></h4>
+                    <p>www.website.com</p>
                   </div>
                   <div className="right  flex alignStart">
                     <div>

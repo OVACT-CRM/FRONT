@@ -72,7 +72,7 @@ function SingleQuote() {
       {
         id: newId,
         name: "",
-        description:"",
+        description: "",
         quantity: "",
         price: "",
         discount: "",
@@ -88,74 +88,74 @@ function SingleQuote() {
   const handleStatusChange = (event) => {
     const selectedStatus = event.target.value;
     setQuotationStatus(selectedStatus);
-    
+
     axios
-        .patch(`http://localhost:3001/quotations/${quoteID}`, {
-          status: selectedStatus,
-        })
-        .then((response) => {
+      .patch(`http://localhost:3001/quotations/${quoteID}`, {
+        status: selectedStatus,
+      })
+      .then((response) => {
         if (response.status === 200) {
-            alert("Quotation status updated successfully.");
+          alert("Quotation status updated successfully.");
         } else {
-            alert("Failed to update the quotation status. Please try again.");
+          alert("Failed to update the quotation status. Please try again.");
         }
-        })
-        .catch((error) => {
+      })
+      .catch((error) => {
         console.error(error);
         alert("Failed to update the quotation status. Please try again.");
-        });
+      });
   };
 
   const handleUpdateQuotation = () => {
     axios
-        .patch(`http://localhost:3001/quotations/${quoteID}`, {
-          subject: quoteSubject,
-          date: quoteDate,
-          designations: designations,
-          status: quotationStatus,
-          client: {_id: clientID}
-        })
-        .then((response) => {
+      .patch(`http://localhost:3001/quotations/${quoteID}`, {
+        subject: quoteSubject,
+        date: quoteDate,
+        designations: designations,
+        status: quotationStatus,
+        client: { _id: clientID }
+      })
+      .then((response) => {
         if (response.status === 200) {
-            alert("Quotation updated successfully.");
+          alert("Quotation updated successfully.");
         } else {
-            alert("Failed to update the quotation. Please try again.");
+          alert("Failed to update the quotation. Please try again.");
         }
-        })
-        .catch((error) => {
+      })
+      .catch((error) => {
         console.error(error);
         alert("Failed to update the quotation. Please try again.");
-        });
+      });
   };
 
 
-    useEffect(() => {
-      console.log("Fetching quote with ID", quoteID);
-      fetch(`http://localhost:3001/quotations/${quoteID}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log("Received data", data);
-          setQuote(data);
-    
-          // Add a new ID field to the existing designations based on the index
-          const updatedDesignations = data.designations.map((designation, index) => ({
-            ...designation,
-            id: index + 1,
-          }));
-    
-          setDesignations(updatedDesignations);
-    
-          // Update quoteSubject with the fetched data
-          setQuoteDate(new Date(data.createdAt).toISOString().slice(0, 10));
-          if (data.subject) {
-            setQuoteSubject(data.subject);
-          }
-          if (data.status) {
-            setQuotationStatus(data.status);
-          }
-        })
-        .catch(error => console.error(error));
-    }, [quoteID]);
+  useEffect(() => {
+    console.log("Fetching quote with ID", quoteID);
+    fetch(`http://localhost:3001/quotations/${quoteID}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("Received data", data);
+        setQuote(data);
+
+        // Add a new ID field to the existing designations based on the index
+        const updatedDesignations = data.designations.map((designation, index) => ({
+          ...designation,
+          id: index + 1,
+        }));
+
+        setDesignations(updatedDesignations);
+
+        // Update quoteSubject with the fetched data
+        setQuoteDate(new Date(data.createdAt).toISOString().slice(0, 10));
+        if (data.subject) {
+          setQuoteSubject(data.subject);
+        }
+        if (data.status) {
+          setQuotationStatus(data.status);
+        }
+      })
+      .catch(error => console.error(error));
+  }, [quoteID]);
 
   const clientID = quote && quote.client._id;
 
@@ -171,23 +171,23 @@ function SingleQuote() {
     });
     setDesignations(newDesignations);
   };
-  
 
-  const[invoiceNumber, setInvoiceNumber] = useState(1);
+
+  const [invoiceNumber, setInvoiceNumber] = useState(1);
 
   const handleCreateInvoices = () => {
     const numberOfInvoices = parseInt(invoiceNumber);
-  
+
     if (numberOfInvoices <= 0) {
       alert("Please enter a valid number of invoice installments.");
       return;
     }
-  
+
     const totalHT = designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0);
 
     const installmentAmount = totalHT / numberOfInvoices;
     console.log('installmentAmount', installmentAmount);
-  
+
     for (let i = 0; i < numberOfInvoices; i++) {
       axios
         .post("http://localhost:3001/invoices", {
@@ -225,7 +225,7 @@ function SingleQuote() {
     if (!confirmDelete) {
       return;
     }
-  
+
     axios
       .delete(`http://localhost:3001/quotations/${quoteID}`)
       .then((response) => {
@@ -260,19 +260,19 @@ function SingleQuote() {
     axios.patch(`http://localhost:3001/quotations/${quoteID}`, {
       client: { _id: id }
     })
-    .then((response) => {
-      if (response.status === 200) {
-        alert("Quotation client updated successfully.");
-      } else {
+      .then((response) => {
+        if (response.status === 200) {
+          alert("Quotation client updated successfully.");
+        } else {
+          alert("Failed to update the quotation client. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
         alert("Failed to update the quotation client. Please try again.");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      alert("Failed to update the quotation client. Please try again.");
-    });
+      });
   };
-  
+
   const getClientInfos = (id) => {
     fetch(`http://localhost:3001/clients/${id}`)
       .then(response => response.json())
@@ -284,20 +284,20 @@ function SingleQuote() {
     if (clientID) {
       getClientInfos(clientID);
     }
-    if(selectedClient) {
+    if (selectedClient) {
       getClientInfos(selectedClient);
     }
   }, [selectedClient, clientID]);
 
-  
+
   useEffect(() => {
     axios.get('http://localhost:3001/clients')
-    .then(res => {
+      .then(res => {
         //console.log(res.data);
         setClients(res.data);
-    })
-    .catch(err => console.log(err));
-}, []);
+      })
+      .catch(err => console.log(err));
+  }, []);
 
 
   if (!quote) {
@@ -318,24 +318,24 @@ function SingleQuote() {
         </div>
       }
       {
-      isOpenClientsModal &&
-      <div className="modalWrap" id="modalClients">
-        <div className="overlay" onClick={toggleModalClients}></div>
-        <div className="modal">
-          <ul>
-            {clients.map(client => (
-              <li className="cup" key={client._id} onClick={() => handleSelectClient(client._id)}><span>{client.name}</span></li>
-            ))}
-          </ul>
+        isOpenClientsModal &&
+        <div className="modalWrap" id="modalClients">
+          <div className="overlay" onClick={toggleModalClients}></div>
+          <div className="modal">
+            <ul>
+              {clients.map(client => (
+                <li className="cup" key={client._id} onClick={() => handleSelectClient(client._id)}><span>{client.name}</span></li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
       }
       <main id="main-NewQuote">
         <Sidebar />
         <div className="wrap">
-    
+
           <div className="quoteWrap">
-            
+
             <div className="quoteActions">
               <header className="flex alignCenter gap30 mb50">
                 <h1>Update Quote</h1>
@@ -352,43 +352,43 @@ function SingleQuote() {
                   </select>
                 </div>
               </header>
-    
+
               <div className="flex alignStart gap30">
                 <div className="dib vam mr20 inputWrap mb20">
                   <label className="db mb10">Client Name</label>
                   <div className="inputContainer">
-                    <input type="text" value={client ? client.name : "Missing Client"} readOnly/>
+                    <input type="text" value={client ? client.name : "Missing Client"} readOnly />
                     <button onClick={toggleModalClients} id="button-select-client"><i className="fas fa-user"></i></button>
                   </div>
                 </div>
-    
+
                 <div className="dib vam inputWrap">
                   <label className="db mb10">Date</label>
-                  <input type="date" value={quoteDate} placeholder={quoteDate} onChange={handleDateChange} disabled={isSigned}/>
+                  <input type="date" value={quoteDate} placeholder={quoteDate} onChange={handleDateChange} disabled={isSigned} />
                 </div>
               </div>
-              
+
               <div className="inputWrap db mb30">
                 <label htmlFor="quoteSubject" className="db mb10">Subject</label>
-                <input disabled={isSigned} name="quoteSubject" className="largeInput" placeholder="Quotation Subject..." type="text" value={quoteSubject} onChange={handleSubjectChange}/>
+                <input disabled={isSigned} name="quoteSubject" className="largeInput" placeholder="Quotation Subject..." type="text" value={quoteSubject} onChange={handleSubjectChange} />
               </div>
               {
                 designations &&
                 <ul className="mb30">
-                    {designations.map((designation) => (
+                  {designations.map((designation) => (
                     <Designation
-                        key={designation.id}
-                        handleInputChange={getHandleInputChange(designation.id)}
-                        handleDelete={handleDelete}
-                        {...designation}
-                        name={designation.name}
-                        description={designation.description}
-                        quantity={designation.quantity}
-                        price={designation.price}
-                        discount={designation.discount}
-                        isSigned={isSigned}
+                      key={designation.id}
+                      handleInputChange={getHandleInputChange(designation.id)}
+                      handleDelete={handleDelete}
+                      {...designation}
+                      name={designation.name}
+                      description={designation.description}
+                      quantity={designation.quantity}
+                      price={designation.price}
+                      discount={designation.discount}
+                      isSigned={isSigned}
                     />
-                    ))}
+                  ))}
                 </ul>
               }
               {
@@ -411,114 +411,114 @@ function SingleQuote() {
                   <CustomButton onClick={handleCreateInvoices} size="medium">Create Invoices</CustomButton>
                 </>
               }
-              
+
             </div>
-    
+
             <div className="quoteContainer">
               <div className="quoteA4" ref={contentArea}>
-              <PDFExport>
-                <img id="zog-z" src="http://localhost:3000/zog-z.jpg" alt="" />
-                <div className="quoteContent">
-                  <header>
-                    <img className="zogmatext" src="http://localhost:3000/zogma-text.png" alt="" />
-                    <div className="tar flex gap30">
-                      <div>
-                        <p className="labelSize"><strong>Quotation</strong></p>
-                        <p>{"ZQ"+new Date(Date.now()).getTime()}</p>
+                <PDFExport>
+                  <div className="quoteContent">
+                    <header>
+                      <img className="zogmatext" src="logo-h.png" alt="" />
+                      <div className="tar flex gap30">
+                        <div>
+                          <p className="labelSize"><strong>Quotation</strong></p>
+                          <p>{"ZQ" + new Date(Date.now()).getTime()}</p>
+                        </div>
+                        <div>
+                          <p className="labelSize"><strong>Date</strong></p>
+                          <p>{new Date(quoteDate).toLocaleDateString()}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="labelSize"><strong>Date</strong></p>
-                        <p>{new Date(quoteDate).toLocaleDateString()}</p>
+                    </header>
+
+                    <div className="firstSection">
+                      <div className="left">
+                        <h4>Subject</h4>
+                        <p>{quoteSubject ? quoteSubject : "No Subject Defined"}</p>
                       </div>
-                    </div>
-                  </header>
-    
-                  <div className="firstSection">
-                    <div className="left">
-                      <h4>Subject</h4>
-                      <p>{quoteSubject ? quoteSubject : "No Subject Defined"}</p>
-                    </div>
-                    <div className="right">
+                      <div className="right">
                         <h4>Client</h4>
                         <p>{client ? client.name : 'No Client Selected'}</p>
                         {client && <p>SIRET : {client.siret}</p>}
                         {client && <p>{client.address}</p>}
                         {client && <p>INT VAT : {client.vat}</p>}
+                      </div>
                     </div>
-                </div>
-                <table className="table table-quotes mb30">
-                  <thead>
-                  <tr>
-                    <th>Designation</th>
-                    <th className="tar">Qty</th>
-                    <th className="tar">Price</th>
-                    <th className="tar">Reduce</th>
-                    <th className="tar">Total HT</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    {designations.map((designation) => (
-                      <tr key={designation.id}>
-                        <td><strong>{designation.name}</strong><p>{designation.description}</p></td>
-                        <td className="tar">{designation.quantity}</td>
-                        <td className="tar">{designation.price}</td>
-                        <td className="tar">{designation.discount === 100 ? "FREE" : designation.discount === 0 ? "" : designation.discount + "%"}</td>
-                        <td className="tar">{designation.price * designation.quantity * (1 - designation.discount / 100)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-              </table>
-    
-            <div className="lastSection">
-                <div className="left">
-                    <h4>Condition of payment</h4>
-                    <p>50% ON RECEIPT OF INVOICE : {(designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0) / 2)} EUR</p>
-                    <p>50% ON DELIVERY : {(designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0) / 2)} EUR</p>
-                </div>
-                <div className="right">
-                    <h4>Payment</h4>
-                    <p>Total HT : {designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0)} EUR</p>
-                    <p>VAT Rate : 23%</p>
-                    <p><strong>Total TTC : {Math.round(designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0) * 1.23)} EUR</strong></p>
-                </div>
+                    <table className="table table-quotes mb30">
+                      <thead>
+                        <tr>
+                          <th>Designation</th>
+                          <th className="tar">Qty</th>
+                          <th className="tar">Price</th>
+                          <th className="tar">Reduce</th>
+                          <th className="tar">Total HT</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {designations.map((designation) => (
+                          <tr key={designation.id}>
+                            <td><strong>{designation.name}</strong><p>{designation.description}</p></td>
+                            <td className="tar">{designation.quantity}</td>
+                            <td className="tar">{designation.price}</td>
+                            <td className="tar">{designation.discount === 100 ? "FREE" : designation.discount === 0 ? "" : designation.discount + "%"}</td>
+                            <td className="tar">{designation.price * designation.quantity * (1 - designation.discount / 100)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+                    <div className="lastSection">
+                      <div className="left">
+                        <h4>Condition of payment</h4>
+                        <p>50% ON RECEIPT OF INVOICE : {(designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0) / 2)} EUR</p>
+                        <p>50% ON DELIVERY : {(designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0) / 2)} EUR</p>
+                      </div>
+                      <div className="right">
+                        <h4>Payment</h4>
+                        <p>Total HT : {designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0)} EUR</p>
+                        <p>VAT Rate : 23%</p>
+                        <p><strong>Total TTC : {Math.round(designations.reduce((acc, curr) => acc + (curr.price * curr.quantity * (1 - (curr.discount / 100))), 0) * 1.23)} EUR</strong></p>
+                      </div>
+                    </div>
+
+                    <div className="quoteFooter">
+                      <div className="left">
+                        <h4>Company <span className="labelSize">- Your baseline</span></h4>
+                        <p>www.website.com</p>
+                      </div>
+                      <div className="right  flex alignStart">
+                        <div>
+                          <h4 className="labelSize">Good for agreement</h4>
+                          <p className="mb10">Location :</p>
+                          <p>Date :</p>
+                        </div>
+                        <div>
+                          <h4 className="labelSize">Client Signature</h4>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </PDFExport>
+              </div>
             </div>
 
-              <div className="quoteFooter">
-                <div className="left">
-                  <h4>ZOGMA <span className="labelSize">- Creative Studio</span></h4>
-                  <p>www.zog.ma</p>
-                </div>
-                <div className="right  flex alignStart">
-                  <div>
-                    <h4 className="labelSize">Good for agreement</h4>
-                    <p className="mb10">Location :</p>
-                    <p>Date :</p>
-                  </div>
-                  <div>
-                    <h4 className="labelSize">Client Signature</h4>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </PDFExport>
           </div>
-        </div>
-    
-      </div>
-    
-        <footer>
-            <p>Quotation {"ZQ"+new Date(Date.now()).getTime()}</p>
+
+          <footer>
+            <p>Quotation {"ZQ" + new Date(Date.now()).getTime()}</p>
             <div>
               <CustomButton onClick={handleUpdateQuotation} disabled={isSigned} size="small" color="borderwhite"><span className="mr10">Update Quote</span><i className="fas fa-save"></i></CustomButton>
               <CustomButton onClick={handleExportWithFunction} size="small" color="borderwhite"><span className="mr10">Download PDF</span><i className="fas fa-file-download"></i></CustomButton>
               <CustomButton onClick={toggleModalDelete} size="small" color="borderwhite"><span className="mr10">Delete Quotation</span><i className="fas fa-trash-alt"></i></CustomButton>
-           </div>
-        </footer>
-    
+            </div>
+          </footer>
+
         </div>
-        </main>
-        </>
-      );
-    }
-    
-    export default SingleQuote;
+      </main>
+    </>
+  );
+}
+
+export default SingleQuote;

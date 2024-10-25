@@ -132,10 +132,9 @@ function SingleInvoices() {
                     <div className="invoiceContainer">
                         <div className="invoiceA4" ref={contentArea}>
                             <PDFExport>
-                                <img id="zog-z" src="http://localhost:3000/zog-z.jpg" alt="" />
                                 <div className="invoiceContent">
                                     <header>
-                                        <img className="zogmatext" src="http://localhost:3000/zogma-text.png" alt="" />
+                                        <img className="zogmatext" src="http://localhost:3000/logo-h.png" alt="" />
                                         <div className="tar flex gap30">
                                             <div>
                                                 <p className="labelSize"><strong>Invoice</strong></p>
@@ -191,17 +190,16 @@ function SingleInvoices() {
                                             <p>VAT Rate : N/A</p>
                                             <p>VAT Amount : N/A</p>
                                             <p><strong>Total Price : {invoice.total} EUR</strong></p>
-                                            <p className="vat-due">VAT due by the customer - Article 44 Directive 2006/112/EC</p>
+                                            <p className="vat-due">VAT - Article</p>
                                         </div>
                                     </div>
 
                                     <div className="invoiceFooter">
                                         <div className="left">
-                                            <p><strong>ZOGMA</strong> <span>- PL 697-186-53-78</span></p>
-                                            <p>NR EWIDEN. 53053117630 REGON: 410373867</p>
-                                            <p className="mb10">ul. Szczepanowskiego 11, PL 64-000 KOSCIAN</p>
-                                            <p><strong>BANK SANTANDER : </strong></p>
-                                            <p className="iban">PL11 1090 2125 0000 0001 2099 5777 — SWIFT WBK PPL PP</p>
+                                            <p><strong>Your Company</strong></p>
+                                            <p className="mb10">Company postal address</p>
+                                            <p><strong>PAYMENT INFOS : </strong></p>
+                                            <p className="iban">IBAN NUMBER XXXX XXXX XXXX XXXX</p>
                                         </div>
                                         <div className="right flex alignStart">
                                             <div>

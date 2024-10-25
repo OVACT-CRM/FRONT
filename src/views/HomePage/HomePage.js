@@ -20,7 +20,7 @@ function HomePage() {
       <main id="main-homepage">
         <Sidebar />
         <div className="wrap">
-          <h1>Welcome to ZogCRM</h1>
+          <h1>Customer relationship manager</h1>
           <ul>
             <li><Link to="/clients"><i className="fal fa-users"></i>Clients</Link></li>
             <li><Link to="/quotations"><i className="fal fa-file-alt"></i>Quotes</Link></li>
